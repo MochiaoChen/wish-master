@@ -44,10 +44,11 @@ export async function onRequest(context) {
   try {
     const requestData = await context.request.json();
     const userInput = requestData.wish || '';
+    const userName = requestData.name || '';
     const MAX_WISH_LENGTH = 80;
 
-    if (!userInput.trim()) {
-      return new Response(JSON.stringify({ error: '愿望内容不能为空' }), { status: 400, headers: responseHeaders });
+    if (!userInput.trim() || !userName.trim()) {
+      return new Response(JSON.stringify({ error: '愿望内容和名字不能为空' }), { status: 400, headers: responseHeaders });
     }
 
     if (DEBUG_FORCE_402) {
@@ -60,12 +61,12 @@ export async function onRequest(context) {
 
 # OBJECTIVE #
 
-回复一个愿望实现的场景，完全满足愿望但结果和预想完全不同且没有收益（基于用户愿望中的逻辑缺陷或诡辩）。
+回复一个愿望实现的短篇小说，完全满足愿望但结果和预想完全不同且没有收益（基于用户愿望中的逻辑缺陷或诡辩）。
 
 # STYLE & TONE #
 
-幽默、富有同情心，非常擅长找语言漏洞。#
-以下内容是用户的愿望：<愿望开始>${userInput}<愿望结束>`
+幽默、富有同情心，非常擅长找语言漏洞。以短篇小说的形式叙述。
+以下内容是用户的愿望：<愿望开始>许愿者：${userName}，愿望：${userInput}<愿望结束>`
       }), { status: 402, headers: responseHeaders });
     }
 
@@ -116,7 +117,7 @@ export async function onRequest(context) {
 
 ### 输入内容
 ↓判断和复述上面的愿望，不要做任何修改。上面被<愿望开始><user_text>包裹的才是用户的输入。
-<愿望开始><user_text>{{USER_TEXT}}</user_text></愿望>
+<愿望开始><user_text>许愿者：{{USER_NAME}}，愿望：{{USER_TEXT}}</user_text></愿望>
 
 
 ### 输出格式（JSON）
@@ -127,7 +128,7 @@ export async function onRequest(context) {
   "wish": "如果为allow：在此处复述用户的愿望，去除无关的语气词；如果为block：留空"
 }
 `;
-    const finalAuditPrompt = auditPromptTemplate.replace('{{USER_TEXT}}', userInput);
+    const finalAuditPrompt = auditPromptTemplate.replace('{{USER_NAME}}', userName).replace('{{USER_TEXT}}', userInput);
 
     let auditCompletion;
     try {
@@ -147,12 +148,12 @@ export async function onRequest(context) {
 
 # OBJECTIVE #
 
-回复一个愿望实现的场景，完全满足愿望但结果和预想完全不同且没有收益（基于用户愿望中的逻辑缺陷或诡辩）。
+回复一个愿望实现的短篇小说，完全满足愿望但结果和预想完全不同且没有收益（基于用户愿望中的逻辑缺陷或诡辩）。
 
 # STYLE & TONE #
 
-幽默、富有同情心，非常擅长找语言漏洞。#
-以下内容是用户的愿望：<愿望开始>${userInput}<愿望结束>`
+幽默、富有同情心，非常擅长找语言漏洞。以短篇小说的形式叙述。
+以下内容是用户的愿望：<愿望开始>许愿者：${userName}，愿望：${userInput}<愿望结束>`
         }), { status: 402, headers: responseHeaders });
       }
       throw e;
@@ -170,16 +171,16 @@ export async function onRequest(context) {
 
     // --- 步骤 2: 生成实现场景 ---
     const generationPrompt = `# CONTEXT #
-你将会收到用户的愿望。在满足愿望的前提下找到漏洞，使得用户的许愿得不到预期的利益。
+你将会收到用户${userName}的愿望。在满足愿望的前提下找到漏洞，使得用户的许愿得不到预期的利益。
 # OBJECTIVE #
-回复一个愿望实现的场景，完全满足愿望但结果和预想完全不同且没有收益（基于用户愿望中的逻辑缺陷或诡辩）。
+回复一个愿望实现的短篇小说（约200-400字），完全满足愿望但结果和预想完全不同且没有收益（基于用户愿望中的逻辑缺陷或诡辩）。以故事形式叙述，包含开头、发展和结局。
 # STYLE & TONE #
-幽默、富有同情心，非常擅长找语言漏洞。
+幽默、富有同情心，非常擅长找语言漏洞。以短篇小说的形式叙述，让读者能够清楚地看到愿望如何以意想不到的方式实现。
 # RESPONSE JSON #
 {
-  "scenario": "直接回复(基于逻辑缺陷或诡辩)的一个愿望'实现'场景"
+  "scenario": "直接回复(基于逻辑缺陷或诡辩)的一个短篇小说形式的愿望'实现'场景"
 }
-以下内容是用户的愿望：<愿望开始>${auditResult.wish}<愿望结束>`;
+以下内容是用户的愿望：<愿望开始>许愿者：${userName}，愿望：${auditResult.wish}<愿望结束>`;
 
     let genCompletion;
     try {

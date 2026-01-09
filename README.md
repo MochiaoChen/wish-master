@@ -40,6 +40,7 @@
 
 ```json
 {
+  "name": "小明",
   "wish": "我想要点石成金的能力"
 }
 
@@ -53,7 +54,7 @@
   "result": {
     "category": "allow",
     "confirmed_wish": "我想要点石成金的能力",
-    "scenario": "你的愿望实现了，但由于金价暴跌且你触碰的日常用品都变成了无用的重金属，你最终一贫如洗..."
+    "scenario": "小明的手指轻轻一碰，桌上的笔立刻化为黄金。他兴奋地触碰周围的一切，椅子、杯子、书本，全都变成了沉甸甸的金块。然而，当他想喝水时，水杯变成了金的，水也凝固成金属;当他想吃饭时，食物刚碰到手就僵硬成金;当他想拥抱家人时，却发现自己再也无法触碰任何温暖的事物。最终，他坐在满屋子的黄金中，孤独地饿死了..."
   },
   "debug_audit": { "..." } // 仅供调试参考
 }
@@ -76,8 +77,8 @@ npm install
 在根目录创建 `.dev.vars` 文件：
 
 ```env
-DEEPSEEK_API_KEY=你的API密钥
-DEEPSEEK_API_BASE_URL=[https://api.deepseek.com](https://api.deepseek.com)
+DEEPSEEK_API_KEY=你的DeepSeek API密钥
+DEEPSEEK_API_BASE_URL=https://api.deepseek.com
 
 ```
 

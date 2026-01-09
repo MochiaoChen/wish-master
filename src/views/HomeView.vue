@@ -16,6 +16,7 @@ const router = useRouter();
 // 0: 输入愿望, 1: 审查愿望(3秒), 2: 正在构建现实/钻漏洞(API请求期间), 3: 展示结果, 4: 额度不足
 const currentStep = ref(0); 
 const wishText = ref('');
+const nameText = ref('');
 const isLoading = ref(false);
 const error = ref(null);
 const quotaErrorPrompt = ref('');
@@ -24,6 +25,7 @@ const { refundEnergy, decreaseStability, recoverStability } = useWishEnergy();
 
 // 愿望实现结果数据
 const wishResult = reactive({
+  name: '',
   confirmed_wish: '',
   realization_scenario: '', // 存储LLM生成的反转剧情
 });
@@ -82,6 +84,7 @@ async function handleWishSubmit(wish) {
     recoverStability();
 
     // 拿到结果
+    wishResult.name = nameText.value;
     wishResult.confirmed_wish = data.result.confirmed_wish;
     wishResult.realization_scenario = data.result.scenario;
     
@@ -110,7 +113,9 @@ async function handleWishSubmit(wish) {
 function handleRestart() {
   currentStep.value = 0;
   wishText.value = '';
+  nameText.value = '';
   error.value = null;
+  wishResult.name = '';
   wishResult.confirmed_wish = '';
   wishResult.realization_scenario = '';
   quotaErrorPrompt.value = '';

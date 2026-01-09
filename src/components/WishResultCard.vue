@@ -94,6 +94,8 @@ onMounted(async () => {
 
       <div class="card-body">
         <div class="wish-section">
+          <div class="label-tag">许愿者</div>
+          <p class="wisher-name">{{ props.signData.name }}</p>
           <div class="label-tag">原定愿望</div>
           <h2 class="wish-title">「 {{ props.signData.confirmed_wish }} 」</h2>
         </div>
@@ -158,26 +160,27 @@ onMounted(async () => {
 }
 
 .card {
-  background: #fff9f0 !important;
+  background: linear-gradient(135deg, #fff9f0 0%, #fef8ed 100%) !important;
   /* 像旧纸张一样的颜色 */
-  border: 2px solid #2c3e50;
+  border: 3px solid #2c3e50;
   color: #2c3e50 !important;
   opacity: 0;
   position: relative;
   /* overflow: hidden; 去掉这个，防止印章被切掉 */
-  border-radius: 4px;
+  border-radius: 12px;
   /* 稍微方正一点 */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.1);
 }
 
 /* 契约顶部的条纹 */
 .contract-header {
-  height: 12px;
+  height: 16px;
   background: repeating-linear-gradient(45deg,
       #2c3e50,
-      #2c3e50 10px,
-      #e74c3c 10px,
-      #e74c3c 20px);
-  border-bottom: 2px solid #2c3e50;
+      #2c3e50 12px,
+      #e74c3c 12px,
+      #e74c3c 24px);
+  border-bottom: 3px solid #2c3e50;
 }
 
 .label-tag {
@@ -186,143 +189,188 @@ onMounted(async () => {
   text-transform: uppercase;
   color: #7f8c8d;
   margin-bottom: 0.5rem;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
+  position: relative;
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(127, 140, 141, 0.1);
+  border-radius: 4px;
 }
 
 .label-tag.danger {
   color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.wisher-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 1.2rem;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(142, 68, 173, 0.1), rgba(142, 68, 173, 0.05));
+  border-radius: 8px;
+  border-left: 4px solid #8e44ad;
 }
 
 .wish-title {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 800;
   text-align: center;
-  padding: 1rem 0;
+  padding: 1.2rem 0;
   font-style: italic;
   font-family: "Songti SC", "SimSun", serif;
   /* 增加一点衬线体感觉 */
+  background: linear-gradient(135deg, #8e44ad, #e74c3c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.6;
 }
 
 .divider {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #bdc3c7;
-  margin: 0.5rem 0;
+  margin: 1rem 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600;
+  letter-spacing: 2px;
 }
 
 .divider::before,
 .divider::after {
   content: '';
   flex: 1;
-  height: 1px;
-  background: #bdc3c7;
-  margin: 0 10px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #bdc3c7, transparent);
+  margin: 0 15px;
 }
 
 .realization-section {
   position: relative;
-  background: rgba(44, 62, 80, 0.03);
-  padding: 1.5rem;
-  border-radius: 2px;
-  border: 1px dashed #bdc3c7;
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.04), rgba(44, 62, 80, 0.02));
+  padding: 1.8rem;
+  border-radius: 8px;
+  border: 2px dashed #bdc3c7;
   min-height: 150px;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .scenario-text {
-  font-size: 1.1rem;
-  line-height: 1.8;
+  font-size: 1.15rem;
+  line-height: 1.9;
   color: #2c3e50;
   z-index: 1;
   position: relative;
   white-space: pre-wrap;
   text-align: justify;
+  text-indent: 2em;
 }
 
 /* 装饰性印章样式 */
 .contract-seal {
   position: absolute;
-  right: 10px;
-  bottom: 10px;
-  width: 90px;
-  height: 90px;
-  border: 4px double rgba(231, 76, 60, 0.5);
+  right: 15px;
+  bottom: 15px;
+  width: 100px;
+  height: 100px;
+  border: 5px double rgba(231, 76, 60, 0.6);
   border-radius: 50%;
-  color: rgba(231, 76, 60, 0.6);
+  color: rgba(231, 76, 60, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
   transform: rotate(-20deg);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   pointer-events: none;
   user-select: none;
-  /* 加上印章的质感 */
-  mask-image: radial-gradient(circle, black 50%, transparent 100%);
+  background: radial-gradient(circle, rgba(231, 76, 60, 0.05), transparent);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
 }
 
 .disclaimer {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: #95a5a6;
   text-align: center;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  margin-top: 1.8rem;
+  padding-top: 1.2rem;
+  border-top: 2px solid rgba(0, 0, 0, 0.08);
+  line-height: 1.6;
 }
 
 /* 修改原有的 .promo-link，并新增下级样式 */
 .promo-link {
   text-align: center;
   font-family: monospace;
-  margin-top: 8px;
+  margin-top: 10px;
   /* 使用 Flex 让两行文字垂直居中排列 */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px; /* 两行文字之间的间距 */
+  gap: 6px; /* 两行文字之间的间距 */
 }
 
 .promo-link .link-text {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #bdc3c7;
-  letter-spacing: 1px;
-  opacity: 0.8;
+  letter-spacing: 1.5px;
+  opacity: 0.9;
 }
 
 .promo-link .author-credit {
-  font-size: 0.7rem; /* 稍微小一点，作为署名 */
+  font-size: 0.75rem; /* 稍微小一点，作为署名 */
   color: #95a5a6;    /* 稍微深一点或者淡一点的灰色，看你喜好 */
-  letter-spacing: 0.5px;
-  opacity: 0.6;      /* 降低一点存在感，显得更精致 */
+  letter-spacing: 0.8px;
+  opacity: 0.7;      /* 降低一点存在感，显得更精致 */
 }
 
 .action-buttons {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 20px;
   /* 按钮之间分开一点 */
   flex-wrap: wrap;
 }
 
 /* 按钮样式微调 */
 .btn {
-  min-width: 140px;
+  min-width: 160px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
 .btn-primary {
-  background-color: #2c3e50 !important;
+  background: linear-gradient(135deg, #2c3e50, #34495e) !important;
   border-color: #2c3e50 !important;
   color: white !important;
 }
 
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1a252f, #2c3e50) !important;
+}
+
 .btn-secondary {
-  border-color: #2c3e50 !important;
+  background: white !important;
+  border: 2px solid #2c3e50 !important;
   color: #2c3e50 !important;
 }
 
 .btn-secondary:hover {
-  background-color: #2c3e50 !important;
+  background: linear-gradient(135deg, #2c3e50, #34495e) !important;
   color: white !important;
 }
 
@@ -373,6 +421,13 @@ onMounted(async () => {
 
 /* 移动端适配微调 */
 @media (max-width: 640px) {
+  .stats-hint {
+    font-size: 0.8rem;
+    /* 手机上字体再稍微小一点点 */
+    padding: 12px 15px;
+    /* 防止文字贴边 */
+  }
+}
   /* ...原有移动端样式... */
 
   .stats-hint {

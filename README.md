@@ -127,4 +127,4 @@ npm run build && npx wrangler pages dev dist --compatibility-date=2024-01-01
 
 ---
 
-© 2026 完美许愿器 | 智慧来源：Google Gemini
+© 2026 完美许愿器 | 智慧来源：DeepSeek

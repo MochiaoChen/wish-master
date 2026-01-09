@@ -77,8 +77,8 @@ npm install
 在根目录创建 `.dev.vars` 文件：
 
 ```env
-GEMINI_API_KEY=你的Gemini API密钥
-GEMINI_API_BASE_URL=https://generativelanguage.googleapis.com/v1beta
+DEEPSEEK_API_KEY=你的DeepSeek API密钥
+DEEPSEEK_API_BASE_URL=https://api.deepseek.com
 
 ```
 

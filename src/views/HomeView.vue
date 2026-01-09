@@ -33,8 +33,9 @@ const wishResult = reactive({
 /**
  * 处理愿望提交逻辑 - 加入了“恶意”延迟版
  */
-async function handleWishSubmit(wish) {
-  wishText.value = wish;
+async function handleWishSubmit(wishData) {
+  wishText.value = wishData.wish;
+  nameText.value = wishData.name;
   // 1. 开始：进入【审查阶段】
   // 此时 StepFlow 显示第一步：正在扫描灵魂签署痕迹...
   currentStep.value = 1; 
@@ -55,7 +56,7 @@ async function handleWishSubmit(wish) {
     const response = await fetch('/api/validateWish', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ wish })
+      body: JSON.stringify({ wish: wishData.wish, name: wishData.name })
     });
     
     if (response.status === 402) {
